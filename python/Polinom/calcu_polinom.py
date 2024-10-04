@@ -10,7 +10,6 @@ import numpy as np
 # p = np.poly1d(coeffs)
 p = np.poly1d([3,273,792])
 x = [-3, -1, 0, 1, 3]
-
 # x = int(input("subsitusikan polinom dengan: "))
 for value in x:
     print(f"Nilai polinomial untuk x = {value}: {p(value)}")
