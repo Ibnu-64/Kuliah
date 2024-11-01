@@ -1,64 +1,84 @@
 import numpy as np
+import random
 
-def matrix_sum(matrix1, matrix2):
-    """
-    Adds two matrices element-wise.
+nim = [2,4,1,1,1,0,2,4,4,1,2,6,4]
+
+
+import random
+
+def createMatrix(data, n=2):
+    # Mengacak urutan elemen-elemen di dalam data
+    random.shuffle(data)
     
-    Parameters:
-    matrix1 (list of list of int/float): First matrix
-    matrix2 (list of list of int/float): Second matrix
+    # Membuat matriks dari elemen-elemen yang sudah diacak
+    matrix = []
+    for i in range(n):
+        # Menambahkan sub-list (baris) ke dalam matriks
+        row = data[i * n : (i + 1) * n]  # Memotong bagian dari data untuk setiap baris
+        matrix.append(row)
     
-    Returns:
-    list of list of int/float: Resultant matrix after addition
-    """
-    return np.add(matrix1, matrix2).tolist()
-
-def scalar_multiply(matrix, scalar):
-    """
-    Multiplies a matrix by a scalar.
-    
-    Parameters:
-    matrix (list of list of int/float): Input matrix
-    scalar (int/float): Scalar value
-    
-    Returns:
-    list of list of int/float: Resultant matrix after scalar multiplication
-    """
-    return np.multiply(matrix, scalar).tolist()
-
-
-
-# Example usage:
-
-
-
-
-def matrix_multiply(matrix1, matrix2):
-        # """
-        # Multiplies two matrices.
-        
-        # Parameters:
-        # matrix1 (list of list of int/float): First matrix
-        # matrix2 (list of list of int/float): Second matrix
-        
-        # Returns:
-        # list of list of int/float: Resultant matrix after multiplication
-        # """
-    return np.dot(matrix1, matrix2).tolist()
-
-
-# print("Matrix Sum:")
-# print(matrix_sum(matrix1, matrix2))
-
-# print("Scalar Multiplication:")
-# print(scalar_multiply(matrix1, scalar))
-def inputMatirx(rows, columns):
-    matrix =[]
-    for i in range(rows):
-        for j in range(columns):
-            matrix[i][j] = int(input("Enter the element at position (" + str(i) + ", " + str(j) + "): "))
     return matrix
-# print("Matrix Multiplication:")
-matrix1 = inputMatirx(input("Enter the number of rows: "), input("Enter the number of columns: "))
-matrix2 = inputMatirx(input("Enter the number of rows: "), input("Enter the number of columns: "))
-print(matrix_multiply(matrix1, matrix2))
+
+
+
+def print_matrix(matrix, step):
+    """Fungsi untuk mencetak matriks dengan format yang jelas."""
+    print(f"Langkah {step}:")
+    print(matrix)
+    print()  # Baris kosong untuk pemisah
+
+def gauss_jordan_inverse(matrix):
+    # Mengubah matrix menjadi array numpy
+    A = np.array(matrix, dtype=float)
+    
+    # Mendapatkan ukuran matriks
+    n = A.shape[0]
+    
+    # Membuat matriks identitas
+    I = np.eye(n)
+    
+    # Menggabungkan matriks A dan I
+    augmented_matrix = np.hstack((A, I))
+    
+    # print_matrix(augmented_matrix, 0)  # Cetak matriks awal
+
+    # Melakukan eliminasi Gauss-Jordan
+    for i in range(n):
+        # Mencari pivot
+        if augmented_matrix[i, i] == 0:
+            # Jika pivotnya 0, matriks tidak dapat diinversi
+            print("Matriks tidak dapat diinversi.")
+            return None
+        
+        # Membagi baris dengan pivot
+        augmented_matrix[i] = augmented_matrix[i] / augmented_matrix[i, i]
+        # print_matrix(augmented_matrix, i + 1)  # Cetak setelah membagi baris
+        
+        # Menghilangkan elemen di atas dan di bawah pivot
+        for j in range(n):
+            if j != i:
+                augmented_matrix[j] -= augmented_matrix[i] * augmented_matrix[j, i]
+        
+        # print_matrix(augmented_matrix, i + 1 + n)  # Cetak setelah eliminasi
+
+    # Mengambil matriks invers dari augmented matrix
+    inverse_matrix = augmented_matrix[:, n:]
+    
+    return inverse_matrix
+
+def printMatrix(matrix):
+    for row in matrix:
+         print(" ".join(f"{num:>5}" for num in row))
+
+# matrix = createMatrix(nim,3)
+
+matrix = [[2, 4, 1], [1, 1, 0 ],[2, 4, 4]]
+print("formula:")
+printMatrix(matrix)
+
+inverse = gauss_jordan_inverse(matrix)
+if inverse is not None:
+    print("Matriks invers:")
+    print(inverse.round(2))
+else:
+    print("Matriks tidak dapat diinversi.")
