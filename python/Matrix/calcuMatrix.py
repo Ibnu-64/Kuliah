@@ -72,7 +72,7 @@ def printMatrix(matrix):
 
 # matrix = createMatrix(nim,3)
 
-matrix = [[2, 4, 1], [1, 1, 0 ],[2, 4, 4]]
+matrix = [[2, 3, 1,2,2], [1, 3, 5,3,4 ],[2,2, 1,1,5], [2,3,1,5,1], {1,4,2,2,1}]
 print("formula:")
 printMatrix(matrix)
 
